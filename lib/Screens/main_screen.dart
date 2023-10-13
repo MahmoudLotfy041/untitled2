@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:untitled2/Color_font/color.dart';
+import 'package:untitled2/Screens/testfile.dart';
 
 import 'Model.dart';
 
@@ -19,10 +20,10 @@ class MainScreen extends StatelessWidget {
 
   ];
   List Itemflachsale=[
-    itemflach(image1: 'https://assets.adidas.com/images/w_940,f_auto,q_auto/751eff6ab4e544dba6b1afb200aae673_9366/HR8833_21_model.jpg', text1: 'Salah Training', price: 150),
-    itemflach(image1: 'https://assets.adidas.com/images/w_450,f_auto,q_auto/c45fac2279094a599d9dac63014d5edf_9366/GM8977_00_plp_laydown.jpg', text1: 'Salah Training', price: 200),
-    itemflach(image1: 'https://e7.pngegg.com/pngimages/566/320/png-clipart-t-shirt-adidas-sportswear-sleeve-adidas-t-shirt-tshirt-white.png', text1: 'Salah Training', price: 160),
-    itemflach(image1: 'https://images.yaoota.com/7qyhE0bhMNIcpsj0BIXDh1OU1vA=/trim/yaootaweb-production/media/crawledproductimages/c80fbdddca851dc8dd5a577d90a0cbdfcaacf08d.jpg', text1: 'Salah Training', price: 1710),
+    itemflach(image1: 'https://assets.adidas.com/images/w_940,f_auto,q_auto/751eff6ab4e544dba6b1afb200aae673_9366/HR8833_21_model.jpg', text1: 'Salah Training', price: 150, des: 200, des2:" 24% Off"),
+    itemflach(image1: 'https://assets.adidas.com/images/w_450,f_auto,q_auto/c45fac2279094a599d9dac63014d5edf_9366/GM8977_00_plp_laydown.jpg', text1: 'Salah Training', price: 200, des: 200,des2: " 24% Off"),
+    itemflach(image1: 'https://e7.pngegg.com/pngimages/566/320/png-clipart-t-shirt-adidas-sportswear-sleeve-adidas-t-shirt-tshirt-white.png', text1: 'Salah Training', price: 160, des: 200,des2:" 24% Off"),
+    itemflach(image1: 'https://images.yaoota.com/7qyhE0bhMNIcpsj0BIXDh1OU1vA=/trim/yaootaweb-production/media/crawledproductimages/c80fbdddca851dc8dd5a577d90a0cbdfcaacf08d.jpg', text1: 'Salah Training', price: 1710, des: 200,des2:" 24% Off"),
   ];
 
   @override
@@ -60,21 +61,28 @@ class MainScreen extends StatelessWidget {
               ),
 
               //Category
-              SizedBox(
-                height: 100,
-                child: SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
+              FutureBuilder(
+                future: getHttp(),
+
+                  builder:(context,snapshot){
+                  return  SizedBox(
+                    height: 100,
+                    child: SingleChildScrollView(
                       physics: BouncingScrollPhysics(),
-                      itemCount: catogre.length,
-                      itemBuilder: (context, i) {
-                        return Category(cate: catogre[i]);
-                      }),
-                ),
-              ),
+                      scrollDirection: Axis.horizontal,
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          physics: BouncingScrollPhysics(),
+                          itemCount:  snapshot.data!.data.data.length,
+                          itemBuilder: (context, i) {
+                            return Category(cate: catogre[i]);
+                          }),
+                    ),
+                  );
+                  } ),
+
+
               Padding(
                 padding: const EdgeInsets.only(right: 12, left: 12),
                 child: Row(
@@ -165,7 +173,7 @@ class Category extends StatelessWidget {
             child: CircleAvatar(
               backgroundColor: Colors.white,
               radius: 25,
-              child: Image.asset(
+              child: Image.network(
                 cate.image,height: 25,
                 width: 25,
               ),
@@ -180,6 +188,8 @@ class Category extends StatelessWidget {
     );
   }
 }
+
+
 
 
 class itemflachsale extends StatelessWidget {
@@ -220,6 +230,12 @@ class itemflachsale extends StatelessWidget {
           Container(
               alignment: Alignment.centerLeft,
               child: Text(sale.price.toString(),style: TextStyle(color: Colors.blue),)),
+          
+          Row(children: [
+            Text(sale.des.toString()),
+               SizedBox(width: 10,),
+            Text(sale.des2,style: TextStyle(color: Colors.red,fontWeight: FontWeight.w700),),
+          ],),
 
 
         ],),

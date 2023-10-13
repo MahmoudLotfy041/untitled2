@@ -1,17 +1,16 @@
 import 'package:dio/dio.dart';
-import 'dart:convert';
+import 'package:untitled2/Model/slider_model.dart';
+
 
 import 'package:untitled2/Screens/json.dart';
 
 final dio = Dio();
 
-Future<Category> getHttp() async {
+Future<SliderModel> getHttp() async {
   final response = await dio.get("https://student.valuxapps.com/api/categories");
 
-  final category = Category.fromJson(response.data);
+  final slider = SliderModel.fromJson(response.data);
 
-  return category;
-
+  return slider;
 
 }
-
