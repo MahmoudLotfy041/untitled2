@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'Screens/Home_screen.dart';
-import 'Screens/home.dart';
+import 'Screens/signup_screen.dart';
 import 'Screens/splash_screen.dart';
 import 'Screens//login_screen.dart';
 import 'package:dio/dio.dart';
 
-import 'Screens/testfile.dart';
+import 'json/testfile.dart';
 
 
 void main() {

@@ -1,9 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:untitled2/Model/slider_model.dart';
-
-
-import 'package:untitled2/Screens/json.dart';
-
 final dio = Dio();
 
 Future<SliderModel> getHttp() async {

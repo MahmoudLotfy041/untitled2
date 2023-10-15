@@ -3,8 +3,6 @@ import 'package:untitled2/Model/flashsale_model.dart';
 import 'package:untitled2/Model/slider_model.dart';
 
 
-import 'package:untitled2/Screens/json.dart';
-
 final dio = Dio();
 
 Future<FlachSale> getHttp() async {

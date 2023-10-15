@@ -1,8 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:untitled2/Color_font/color.dart';
-import 'package:untitled2/Screens/testfile.dart';
+import 'package:untitled2/json/testfile.dart';
 
+
+import '../Model/category_model.dart';
 import 'Model.dart';
 
 class MainScreen extends StatelessWidget {
@@ -63,8 +66,8 @@ class MainScreen extends StatelessWidget {
               //Category
               FutureBuilder(
                 future: getHttp(),
-
                   builder:(context,snapshot){
+                 // snapshot.data!.data.data;
                   return  SizedBox(
                     height: 100,
                     child: SingleChildScrollView(
@@ -74,9 +77,9 @@ class MainScreen extends StatelessWidget {
                           scrollDirection: Axis.horizontal,
                           shrinkWrap: true,
                           physics: BouncingScrollPhysics(),
-                          itemCount:  snapshot.data!.data.data.length,
+                          itemCount:  catogre.length,
                           itemBuilder: (context, i) {
-                            return Category(cate: catogre[i]);
+                            return CategoryScreen(cate: catogre[i]);
                           }),
                     ),
                   );
@@ -158,8 +161,8 @@ class MainScreen extends StatelessWidget {
     );
   }
 }
-class Category extends StatelessWidget {
-  const Category({Key? key,required this.cate}) : super(key: key);
+class CategoryScreen extends StatelessWidget {
+  const CategoryScreen({Key? key,required this.cate}) : super(key: key);
   final categoryModel cate;
   @override
   Widget build(BuildContext context) {
@@ -173,12 +176,15 @@ class Category extends StatelessWidget {
             child: CircleAvatar(
               backgroundColor: Colors.white,
               radius: 25,
-              child: Image.network(
-                cate.image,height: 25,
+              //------------------------------TODO
+              child: Image.asset(
+                cate.image,
+                height: 25,
                 width: 25,
               ),
             ),
           ),
+          //------------------------------TODO
           Text(
             cate.text,
             style: TextStyle(),

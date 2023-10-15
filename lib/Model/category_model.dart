@@ -1,22 +1,22 @@
 
 import 'dart:convert';
 
-CategoryModel welcomeFromJson(String str) => CategoryModel.fromJson(json.decode(str));
+CategoryModel1 welcomeFromJson(String str) => CategoryModel1.fromJson(json.decode(str));
 
-String welcomeToJson(CategoryModel data) => json.encode(data.toJson());
+String welcomeToJson(CategoryModel1 data) => json.encode(data.toJson());
 
-class CategoryModel {
+class CategoryModel1 {
   bool status;
   dynamic message;
   Data data;
 
-  CategoryModel({
+  CategoryModel1({
     required this.status,
     required this.message,
     required this.data,
   });
 
-  factory CategoryModel.fromJson(Map<String, dynamic> json) => CategoryModel(
+  factory CategoryModel1.fromJson(Map<String, dynamic> json) => CategoryModel1(
     status: json["status"],
     message: json["message"],
     data: Data.fromJson(json["data"]),
