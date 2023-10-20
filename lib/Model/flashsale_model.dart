@@ -31,7 +31,7 @@ class FlachSale {
 
 class Data {
   int currentPage;
-  List<Datum> data;
+  List<DatumItem> data;
   String firstPageUrl;
   int from;
   int lastPage;
@@ -60,7 +60,7 @@ class Data {
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     currentPage: json["current_page"],
-    data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+    data: List<DatumItem>.from(json["data"].map((x) => DatumItem.fromJson(x))),
     firstPageUrl: json["first_page_url"],
     from: json["from"],
     lastPage: json["last_page"],
@@ -89,11 +89,11 @@ class Data {
   };
 }
 
-class Datum {
+class DatumItem {
   int id;
   double price;
   double oldPrice;
-  int discount;
+  int ? discount;
   String image;
   String name;
   String description;
@@ -101,11 +101,11 @@ class Datum {
   bool inFavorites;
   bool inCart;
 
-  Datum({
+  DatumItem({
     required this.id,
     required this.price,
     required this.oldPrice,
-    required this.discount,
+         this.discount,
     required this.image,
     required this.name,
     required this.description,
@@ -114,7 +114,7 @@ class Datum {
     required this.inCart,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory DatumItem.fromJson(Map<String, dynamic> json) => DatumItem(
     id: json["id"],
     price: json["price"]?.toDouble(),
     oldPrice: json["old_price"]?.toDouble(),

@@ -5,7 +5,7 @@ import 'package:untitled2/Model/slider_model.dart';
 
 final dio = Dio();
 
-Future<FlachSale> getHttp() async {
+Future<FlachSale> getHttpitem() async {
   final response = await dio.get("https://student.valuxapps.com/api/categories");
 
   final flachsale = FlachSale.fromJson(response.data);

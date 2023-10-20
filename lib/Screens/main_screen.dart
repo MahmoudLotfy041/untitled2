@@ -6,28 +6,12 @@ import 'package:untitled2/json/testfile.dart';
 
 
 import '../Model/category_model.dart';
+import '../Model/flashsale_model.dart';
+import '../json/flachsale_json.dart';
 import 'Model.dart';
 
 class MainScreen extends StatelessWidget {
   MainScreen({Key? key}) : super(key: key);
-
-  List catogre = [
-
-    categoryModel(image: 'assets/image/111.png', text: 'Man Shirt'),
-    categoryModel(image:  'assets/image/man bag.png', text: 'Dress'),
-    categoryModel(image: "assets/image/man bag.png", text: 'Man work'),
-    categoryModel(image:  'assets/image/woman bag.png', text: 'Woman'),
-    categoryModel(image: 'assets/image/skirt.png', text: 'Skirt'),
-    categoryModel(image: 'assets/image/woman shoes.png', text: 'Wom shoe'),
-    categoryModel(image:  'assets/image/woman tshirt.png', text: 'Wom tsh'),
-
-  ];
-  List Itemflachsale=[
-    itemflach(image1: 'https://assets.adidas.com/images/w_940,f_auto,q_auto/751eff6ab4e544dba6b1afb200aae673_9366/HR8833_21_model.jpg', text1: 'Salah Training', price: 150, des: 200, des2:" 24% Off"),
-    itemflach(image1: 'https://assets.adidas.com/images/w_450,f_auto,q_auto/c45fac2279094a599d9dac63014d5edf_9366/GM8977_00_plp_laydown.jpg', text1: 'Salah Training', price: 200, des: 200,des2: " 24% Off"),
-    itemflach(image1: 'https://e7.pngegg.com/pngimages/566/320/png-clipart-t-shirt-adidas-sportswear-sleeve-adidas-t-shirt-tshirt-white.png', text1: 'Salah Training', price: 160, des: 200,des2:" 24% Off"),
-    itemflach(image1: 'https://images.yaoota.com/7qyhE0bhMNIcpsj0BIXDh1OU1vA=/trim/yaootaweb-production/media/crawledproductimages/c80fbdddca851dc8dd5a577d90a0cbdfcaacf08d.jpg', text1: 'Salah Training', price: 1710, des: 200,des2:" 24% Off"),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -65,9 +49,9 @@ class MainScreen extends StatelessWidget {
 
               //Category
               FutureBuilder(
-                future: getHttp(),
+                future:getHttp() ,
                   builder:(context,snapshot){
-                 // snapshot.data!.data.data;
+
                   return  SizedBox(
                     height: 100,
                     child: SingleChildScrollView(
@@ -77,9 +61,9 @@ class MainScreen extends StatelessWidget {
                           scrollDirection: Axis.horizontal,
                           shrinkWrap: true,
                           physics: BouncingScrollPhysics(),
-                          itemCount:  catogre.length,
+                          itemCount:  snapshot.data!.data.data.length,
                           itemBuilder: (context, i) {
-                            return CategoryScreen(cate: catogre[i]);
+                            return CategoryScreen(cate: snapshot.data!.data.data[i]);
                           }),
                     ),
                   );
@@ -110,15 +94,21 @@ class MainScreen extends StatelessWidget {
               ),
               SizedBox(height: 15,),
 
-              SizedBox(
-                height: 200,
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: Itemflachsale.length,
-                    itemBuilder: (context,i){
-                      return  itemflachsale(sale:Itemflachsale[i],);
-                    }),
-              ),
+
+                FutureBuilder(
+                    future: getHttpitem(),
+                    builder: (context,snapshot){
+                  return   SizedBox(
+                    height: 200,
+                    child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: snapshot.data!.data.data.length,
+                        itemBuilder: (context,i){
+                          return  itemflachsale(sale:snapshot.data!.data.data[i],);
+                        }),
+                  );
+                }),
+
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
@@ -131,27 +121,6 @@ class MainScreen extends StatelessWidget {
               ),
 
 
-              SizedBox(
-                height: 200,
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: Itemflachsale.length,
-                    itemBuilder: (context,i){
-                      return  ItemFlachSale2(sale:Itemflachsale[i],);
-                    }),
-              ),
-
-
-              SizedBox(
-                height: 380,
-                child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: Itemflachsale.length,
-                    itemBuilder: (context,i){
-                      return  itemflachsale(sale:Itemflachsale[i],);
-                    }),
-              ),
 
 
             ],
@@ -163,7 +132,7 @@ class MainScreen extends StatelessWidget {
 }
 class CategoryScreen extends StatelessWidget {
   const CategoryScreen({Key? key,required this.cate}) : super(key: key);
-  final categoryModel cate;
+  final Datum cate;
   @override
   Widget build(BuildContext context) {
     return  Container(
@@ -177,7 +146,7 @@ class CategoryScreen extends StatelessWidget {
               backgroundColor: Colors.white,
               radius: 25,
               //------------------------------TODO
-              child: Image.asset(
+              child: Image.network(
                 cate.image,
                 height: 25,
                 width: 25,
@@ -186,7 +155,7 @@ class CategoryScreen extends StatelessWidget {
           ),
           //------------------------------TODO
           Text(
-            cate.text,
+            cate.name,
             style: TextStyle(),
           ),
         ],
@@ -202,7 +171,7 @@ class itemflachsale extends StatelessWidget {
   const itemflachsale({
     super.key, required this.sale,
   });
-  final itemflach sale;
+  final DatumItem sale;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -224,13 +193,13 @@ class itemflachsale extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
               border: Border.all(color: Colors.black26),
 
-              image: DecorationImage(image: NetworkImage(sale.image1),
+              image: DecorationImage(image: NetworkImage(sale.image),
                 fit: BoxFit.cover,
               ),
 
             ),
           ),
-          Text(sale.text1,
+          Text(sale.name,
             overflow:TextOverflow.ellipsis
             , maxLines: 2,),
           Container(
@@ -238,9 +207,9 @@ class itemflachsale extends StatelessWidget {
               child: Text(sale.price.toString(),style: TextStyle(color: Colors.blue),)),
           
           Row(children: [
-            Text(sale.des.toString()),
+            Text(sale.oldPrice.toString()),
                SizedBox(width: 10,),
-            Text(sale.des2,style: TextStyle(color: Colors.red,fontWeight: FontWeight.w700),),
+            Text(sale.discount.toString(),style: TextStyle(color: Colors.red,fontWeight: FontWeight.w700),),
           ],),
 
 
@@ -339,48 +308,48 @@ class searchbar extends StatelessWidget {
 }
 
 
-
-class ItemFlachSale2 extends StatelessWidget {
-  const ItemFlachSale2({
-    super.key, required this.sale,
-  });
-  final itemflach sale;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(6),
-      padding: EdgeInsets.all(10),
-      height: 200,
-      width: 120,
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.black26),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Container(
-            // margin: EdgeInsets.all(10),
-            height: 100,
-            width: 100,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: Colors.black26),
-
-              image: DecorationImage(image: NetworkImage(sale.image1),
-                fit: BoxFit.cover,
-              ),
-
-            ),
-          ),
-          Text(sale.text1,
-            overflow:TextOverflow.ellipsis
-            , maxLines: 2,),
-          Container(
-              alignment: Alignment.centerLeft,
-              child: Text(sale.price.toString(),style: TextStyle(color: Colors.blue),)),
-
-
-        ],),
-    );
-  }
-}
+//
+// class ItemFlachSale2 extends StatelessWidget {
+//   const ItemFlachSale2({
+//     super.key, required this.sale,
+//   });
+//   final itemflach sale;
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       margin: EdgeInsets.all(6),
+//       padding: EdgeInsets.all(10),
+//       height: 200,
+//       width: 120,
+//       decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),
+//         border: Border.all(color: Colors.black26),
+//       ),
+//       child: Column(
+//         mainAxisAlignment: MainAxisAlignment.spaceAround,
+//         children: [
+//           Container(
+//             // margin: EdgeInsets.all(10),
+//             height: 100,
+//             width: 100,
+//             decoration: BoxDecoration(
+//               borderRadius: BorderRadius.circular(8),
+//               border: Border.all(color: Colors.black26),
+//
+//               image: DecorationImage(image: NetworkImage(sale.image1),
+//                 fit: BoxFit.cover,
+//               ),
+//
+//             ),
+//           ),
+//           Text(sale.text1,
+//             overflow:TextOverflow.ellipsis
+//             , maxLines: 2,),
+//           Container(
+//               alignment: Alignment.centerLeft,
+//               child: Text(sale.price.toString(),style: TextStyle(color: Colors.blue),)),
+//
+//
+//         ],),
+//     );
+//   }
+// }

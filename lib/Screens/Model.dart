@@ -1,12 +1,5 @@
 import 'package:flutter/foundation.dart';
 
-class categoryModel{
-  final String image;
-  final String text;
-
-  categoryModel({required this.image,required this.text});
-}
-
 class itemflach{
   final String image1;
   final String text1;
